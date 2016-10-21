@@ -44,13 +44,10 @@ class ReflexAgent(Agent):
         # Choose one of the best actions
         scores = [self.evaluationFunction(gameState, action) for action in legalMoves]
         bestScore = max(scores)
-        print "moves: ", legalMoves
-        print "scores: ", scores
         bestIndices = [index for index in range(len(scores)) if scores[index] == bestScore]
         chosenIndex = random.choice(bestIndices) # Pick randomly among the best
 
         "Add more of your code here if you want to"
-        print "move choosed: ", legalMoves[chosenIndex]
         return legalMoves[chosenIndex]
 
     def evaluationFunction(self, currentGameState, action):
