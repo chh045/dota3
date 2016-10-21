@@ -171,7 +171,83 @@ class MinimaxAgent(MultiAgentSearchAgent):
             Returns the total number of agents in the game
         """
         "*** YOUR CODE HERE ***"
+        #print "self: ", self.__dict__
+        #print "gameState: ", gameState.__dict__
+        #print "gameState -> vars: ", vars(gameState)
+        #print "is win: ", gameState.isWin()
+        #print "agent info: ", gameState.getNumAgents()
+        #globals minimax
+        #print "score: ", gameState.getScore()
+        #print "gameState.data: ", gameState.data
+        #agentIndex = 0
+        #agentIndex = gameState.getNumAgents()
+        def p(i, j):
+          if i == 0:
+            print ""
+            return i
+          for k in range(1, 5):
+            print str(i)+'->'+str(j), #first move taken
+            p(i-1)
+
+        """
+        valueList = []
+        def go(gameState, agentIndex, depth):
+          if agentIndex == 0:
+            #print ""
+            return valueList.append(0)#valueList.append(maxValue(gameState, agentIndex, depth - 1))
+          for action in gameState.getLegalActions(agentIndex):
+            newGameState = gameState.generateSuccessor(agentIndex, action)
+            #print "agent", agentIndex, "takes action", action, " ", 
+            go(newGameState, agentIndex - 1, depth)
+
+        print go(gameState, 2, 5)
+        print valueList
+        
         util.raiseNotDefined()
+        """
+
+        def miniMax(gameState):
+          v = -9999999
+          bestAction = None
+         
+          for action in gameState.getLegalActions():
+            v2 = minValue(gameState.generateSuccessor(0, action), self.depth)
+            if v < v2:
+              v = v2
+              bestAction = action
+          return bestAction
+
+        def maxValue(gameState, depth):
+          if gameState.isWin() or gameState.isLose() or depth == 0:
+            return self.evaluationFunction(gameState)
+          value = -9999999
+          for action in gameState.getLegalActions():
+            value = max(value, minValue(gameState.generateSuccessor(0, action), depth))
+          return value
+
+
+        def minValue(gameState, depth):
+          if gameState.isWin() or gameState.isLose() or depth == 0:
+            return self.evaluationFunction(gameState)
+
+          valueList = [9999999]
+          def go(gameState, agentIndex):
+            if agentIndex == 0:
+              #print ""
+              valueList.append(maxValue(gameState, depth - 1))
+              return 0
+            for action in gameState.getLegalActions(agentIndex):
+              newGameState = gameState.generateSuccessor(agentIndex, action)
+              #print "agent", agentIndex, "takes action", action, " ", 
+              go(newGameState, agentIndex - 1)
+
+          go(gameState, gameState.getNumAgents()-1)
+          #print "gameState.getNumAgents(): ", gameState.getNumAgents()
+          return min(valueList)
+
+        #util.raiseNotDefined()
+        return miniMax(gameState)
+
 
 class AlphaBetaAgent(MultiAgentSearchAgent):
     """
